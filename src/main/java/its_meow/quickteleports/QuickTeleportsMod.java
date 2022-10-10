@@ -61,16 +61,16 @@ public class QuickTeleportsMod {
         }).then(Commands.argument("target", GameProfileArgument.gameProfile()).executes(command -> {
             Collection<GameProfile> profiles = GameProfileArgument.getGameProfiles(command, "target");
             if(profiles.size() > 1) {
-                sendMessage(command.getSource(), new FTC(RED, "Specify one player as an argument!"));
+                sendMessage(command.getSource(), new FTC(RED, "指定一个玩家作为参数!"));
                 return 0;
             }
             GameProfile profile = getFirstProfile(profiles);
             if(!isGameProfileOnline(profile)) {
-                sendMessage(command.getSource(), new FTC(RED, "This player is not online!"));
+                sendMessage(command.getSource(), new FTC(RED, "该玩家不在线!"));
                 return 0;
             }
             if(profile.getId().equals(command.getSource().asPlayer().getGameProfile().getId())) {
-                sendMessage(command.getSource(), new FTC(RED, "You cannot teleport to yourself!"));
+                sendMessage(command.getSource(), new FTC(RED, "你不能传送到自己身边!"));
                 return 0;
             }
             String sourceName = command.getSource().asPlayer().getName().getString();
@@ -83,8 +83,8 @@ public class QuickTeleportsMod {
 
             ToTeleport teleport = new ToTeleport(sourceName, targetPlayer.getName().getString());
             QuickTeleportsMod.tps.put(teleport, TpConfig.CONFIG.timeout.get() * 20);
-            sendMessage(targetPlayer, new FTC(GREEN, sourceName), new FTC(GOLD, " has requested to teleport to you. Type "), new FTC(YELLOW, "/tpaccept"), new FTC(GOLD, " to accept."));
-            sendMessage(command.getSource(), new FTC(GOLD, "Requested to teleport to "), new FTC(GREEN, targetPlayer.getName().getString()), new FTC(GOLD, "."));
+            sendMessage(targetPlayer, new FTC(GREEN, sourceName), new FTC(GOLD, " 已请求传送给您。 输入 "), new FTC(YELLOW, "/tpaccept"), new FTC(GOLD, "同意传送."));
+            sendMessage(command.getSource(), new FTC(GOLD, "被要求传送到 "), new FTC(GREEN, targetPlayer.getName().getString()), new FTC(GOLD, "."));
             return 1;
         })));
 
@@ -100,7 +100,7 @@ public class QuickTeleportsMod {
             Teleport tp = QuickTeleportsMod.getSubjectTP(command.getSource().asPlayer().getName().getString());
 
             if(tp == null) {
-                sendMessage(command.getSource(), new FTC(RED, "You have no pending teleport requests!"));
+                sendMessage(command.getSource(), new FTC(RED, "您没有待处理的传送请求!"));
                 return 0;
             }
 
@@ -109,7 +109,7 @@ public class QuickTeleportsMod {
             ServerPlayerEntity playerMoving = event.getServer().getPlayerList().getPlayerByUsername(tp.getSubject());
 
             if(playerMoving == null) {
-                sendMessage(command.getSource(), new FTC(RED, "The player that is teleporting no longer exists!"));
+                sendMessage(command.getSource(), new FTC(RED, "正在传送的玩家不再存在!"));
                 return 0;
             }
 
@@ -119,8 +119,8 @@ public class QuickTeleportsMod {
                 playerRequesting = holder;
             }
 
-            sendMessage(playerRequesting, new FTC(GREEN, "Teleport request accepted."));
-            sendMessage(playerMoving, new FTC(GREEN, (tp instanceof ToTeleport ? "Your teleport request has been accepted." : "You are now being teleported.")));
+            sendMessage(playerRequesting, new FTC(GREEN, "接受传送请求."));
+            sendMessage(playerMoving, new FTC(GREEN, (tp instanceof ToTeleport ? "您的传送请求已被接受。" : "你现在正在被传送.")));
 
             double posX = playerRequesting.func_226277_ct_();
             double posY = playerRequesting.func_226278_cu_();
@@ -139,16 +139,16 @@ public class QuickTeleportsMod {
         }).then(Commands.argument("target", GameProfileArgument.gameProfile()).executes(command -> {
             Collection<GameProfile> profiles = GameProfileArgument.getGameProfiles(command, "target");
             if(profiles.size() > 1) {
-                sendMessage(command.getSource(), new FTC(RED, "Specify one player as an argument!"));
+                sendMessage(command.getSource(), new FTC(RED, "指定一个玩家作为参数!"));
                 return 0;
             }
             GameProfile profile = getFirstProfile(profiles);
             if(!isGameProfileOnline(profile)) {
-                sendMessage(command.getSource(), new FTC(RED, "This player is not online!"));
+                sendMessage(command.getSource(), new FTC(RED, "该玩家不在线!"));
                 return 0;
             }
             if(profile.getId().equals(command.getSource().asPlayer().getGameProfile().getId())) {
-                sendMessage(command.getSource(), new FTC(RED, "You cannot send a teleport request to yourself!"));
+                sendMessage(command.getSource(), new FTC(RED, "你不能向自己发送传送请求!"));
                 return 0;
             }
             String sourceName = command.getSource().asPlayer().getName().getString();
@@ -161,8 +161,8 @@ public class QuickTeleportsMod {
 
             HereTeleport tp = new HereTeleport(sourceName, targetPlayer.getName().getString());
             QuickTeleportsMod.tps.put(tp, TpConfig.CONFIG.timeout.get() * 20);
-            sendMessage(targetPlayer, new FTC(GREEN, sourceName), new FTC(GOLD, " has requested that you teleport to them. Type "), new FTC(YELLOW, "/tpaccept"), new FTC(GOLD, " to accept."));
-            sendMessage(command.getSource(), new FTC(GOLD, "Requested "), new FTC(GREEN, targetPlayer.getName().getString()), new FTC(GOLD, " to teleport to you."));
+            sendMessage(targetPlayer, new FTC(GREEN, sourceName), new FTC(GOLD, " 已经要求你传送到他们那里。 输入 "), new FTC(YELLOW, "/tpaccept"), new FTC(GOLD, " 同意传送."));
+            sendMessage(command.getSource(), new FTC(GOLD, "已请求 "), new FTC(GREEN, targetPlayer.getName().getString()), new FTC(GOLD, " 传送给你."));
 
             return 1;
         })));
@@ -230,10 +230,10 @@ public class QuickTeleportsMod {
         ServerPlayerEntity tper = server.getPlayerList().getPlayerByUsername(tp.getRequester());
         ServerPlayerEntity target = server.getPlayerList().getPlayerByUsername(tp.getSubject());
         if(target != null) {
-            sendMessage(target, new FTC(GOLD, "Teleport request from "), new FTC(GREEN, tp.getRequester()), new FTC(GOLD, " timed out."));
+            sendMessage(target, new FTC(GOLD, "来自 "), new FTC(GREEN, tp.getRequester()), new FTC(GOLD, " 的传送请求已过期."));
         }
         if(tper != null) {
-            sendMessage(tper, new FTC(GOLD, "Your request to "), new FTC(GREEN, tp.getSubject()), new FTC(GOLD, " has timed out after not being accepted."));
+            sendMessage(tper, new FTC(GOLD, "传送到 "), new FTC(GREEN, tp.getSubject()), new FTC(GOLD, " has timed out after not being accepted."));
         }
     }
 
@@ -243,10 +243,10 @@ public class QuickTeleportsMod {
         ServerPlayerEntity tper = server.getPlayerList().getPlayerByUsername(tp.getRequester());
         ServerPlayerEntity target = server.getPlayerList().getPlayerByUsername(tp.getSubject());
         if(target != null) {
-            sendMessage(target, new FTC(GOLD, "Teleport request from "), new FTC(GREEN, tp.getRequester()), new FTC(GOLD, " has been cancelled."));
+            sendMessage(target, new FTC(GOLD, "来自 "), new FTC(GREEN, tp.getRequester()), new FTC(GOLD, " 的传送请求已过期."));
         }
         if(tper != null) {
-            sendMessage(tper, new FTC(GOLD, "Your request to "), new FTC(GREEN, tp.getSubject()), new FTC(GOLD, " has been cancelled."));
+            sendMessage(tper, new FTC(GOLD, "传送到 "), new FTC(GREEN, tp.getSubject()), new FTC(GOLD, " 的传送请求已过期."));
         }
     }
 
